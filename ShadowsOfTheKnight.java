@@ -16,11 +16,16 @@ class Player {
         int X0 = in.nextInt();
         int Y0 = in.nextInt();
 
+        int X = X0;
+        int Y = Y0;
+
         int lastX = X0;
         int lastY = Y0;
         int secondToLastX = lastX;
         int secondToLastY = lastY;
         int count = 1;
+        int newH = 0;
+        int newW = 0;
 
         // game loop
         while (true) {
@@ -33,40 +38,121 @@ class Player {
             System.err.println("Move: " + bombDir);
             System.err.println("Second To last: " + secondToLastX + " " + secondToLastY);
             System.err.println("Last: " + lastX + " " + lastY);
+            System.err.println("New W: " + newW);
+            System.err.println("New H: " + newH);
             System.err.println(count);
 
             switch (bombDir) {
                 case "U":
-                    Y0 = count <= 1 ? (H - Y0) / 2 : (secondToLastY - lastY) / 2;
+                    if (lastY > secondToLastY) {
+                        Y = (secondToLastY + lastY) / 2;
+                        newH = secondToLastY;
+                    } else if (newH != 0) {
+                        Y = (Y + newH) / 2;
+                    } else {
+                        Y = (H - Y) / 2;
+                    }
                     break;
                 case "UR":
-                    X0 = (W + X0) / 2;
-                    Y0 = count <= 1 ? (H - Y0) / 2 : (secondToLastX + lastX) / 2;
+                    if (secondToLastX > lastX) {
+                        X = (secondToLastX + lastX) / 2;
+                        newW = secondToLastX;
+                    } else if (newW != 0) {
+                        X = (X + newW) / 2;
+                    } else {
+                        X = (W + X) / 2;
+                    }
+                    if (lastY > secondToLastY) {
+                        Y = (secondToLastY + lastY) / 2;
+                        newH = secondToLastY;
+                    } else if (newH != 0) {
+                        Y = (Y + newH) / 2;
+                    } else {
+                        Y = (H - Y) / 2;
+                    }
                     break;
                 case "R":
-                    X0 = (W + X0) / 2;
+                    if (secondToLastX > lastX) {
+                        X = (secondToLastX + lastX) / 2;
+                        newW = secondToLastX;
+                    } else if (newW != 0) {
+                        X = (X + newW) / 2;
+                    } else {
+                        X = (W + X) / 2;
+                    }
                     break;
                 case "DR":
-                    Y0 = (H + Y0) / 2;
-                    X0 = (W + X0) / 2;
+                    if (secondToLastY > lastY) {
+                        Y = (secondToLastY + lastY) / 2;
+                        newH = secondToLastY;
+                    } else if (newH != 0) {
+                        Y = (Y + newH) / 2;
+                    } else {
+                        Y = (H + Y) / 2;
+                    }
+                    if (secondToLastX > lastX) {
+                        X = (secondToLastX + lastX) / 2;
+                        newW = secondToLastX;
+                    } else if (newW != 0) {
+                        X = (X + newW) / 2;
+                    } else {
+                        X = (W + X) / 2;
+                    }
                     break;
                 case "D":
-                    Y0 = (H + Y0) / 2;
+                    if (secondToLastY > lastY) {
+                        Y = (secondToLastY + lastY) / 2;
+                        newH = secondToLastY;
+                    } else if (newH != 0) {
+                        Y = (Y + newH) / 2;
+                    } else {
+                        Y = (H + Y) / 2;
+                    }
                     break;
                 case "DL":
-                    Y0 = (H + Y0) / 2;
-                    X0 = count <= 1 ? (W - X0) / 2 : (secondToLastX - lastX) / 2;
+                    if (secondToLastY > lastY) {
+                        Y = (secondToLastY + lastY) / 2;
+                        newH = secondToLastY;
+                    } else if (newH != 0) {
+                        Y = (Y + newH) / 2;
+                    } else {
+                        Y = (H + Y) / 2;
+                    }
+                    if (lastX > secondToLastX) {
+                        X = (secondToLastX + lastX) / 2;
+                        newW = secondToLastX;
+                    } else if (newW != 0) {
+                        X = (X + newW) / 2;
+                    } else {
+                        X = (W - X) / 2;
+                    }
                     break;
                 case "L":
-                    X0 = count <= 1 ? (W - X0) / 2 : (secondToLastX - lastX) / 2;
+                    if (lastX > secondToLastX) {
+                        X = (secondToLastX + lastX) / 2;
+                        newW = secondToLastX;
+                    } else if (newW != 0) {
+                        X = (X + newW) / 2;
+                    } else {
+                        X = (W - X) / 2;
+                    }
                     break;
                 case "UL":
-                    if (count <= 1) {
-                        Y0 = (H - Y0) / 2;
-                        X0 = (W - X0) / 2;
+                    if (lastY > secondToLastY) {
+                        Y = (secondToLastY + lastY) / 2;
+                        newH = secondToLastY;
+                    } else if (newH != 0) {
+                        Y = (Y + newH) / 2;
                     } else {
-                        Y0 = (secondToLastY - lastY) / 2;
-                        X0 = (secondToLastX - lastX) / 2;
+                        Y = (H - Y) / 2;
+                    }
+                    if (lastX > secondToLastX) {
+                        X = (secondToLastX + lastX) / 2;
+                        newW = secondToLastX;
+                    } else if (newW != 0) {
+                        X = (X + newW) / 2;
+                    } else {
+                        X = (W - X) / 2;
                     }
                     break;
 
@@ -75,15 +161,15 @@ class Player {
             }
 
             // the location of the next window Batman should jump to.
-            System.out.println(X0 + " " + Y0);
+            System.out.println(X + " " + Y);
 
             if (count > 1) {
                 secondToLastX = lastX;
                 secondToLastY = lastY;
             }
 
-            lastX = X0;
-            lastY = Y0;
+            lastX = X;
+            lastY = Y;
 
             count++;
         }
